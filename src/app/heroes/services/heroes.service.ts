@@ -7,7 +7,7 @@ import { environments } from '../../../environments/environments';
 @Injectable({ providedIn: 'root' })
 export class HeroesService {
 
-  private baseUrl: string = environments.baseIrl;
+  private baseUrl: string = environments.baseUrl;
 
   constructor(private httpClient: HttpClient) { }
 
