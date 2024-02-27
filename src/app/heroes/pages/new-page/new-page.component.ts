@@ -34,10 +34,22 @@ export class NewPageComponent {
     console.log({ hero });
     return hero;
   }
-  
+
   onSumit(): void {
     if (this.heroForm.invalid) return;
+    if (this.currentHero.id) {
+      this.heroesService
+        .updateHero(this.currentHero)
+        .subscribe(hero => {
+          // TODO: mostrar snackBar
+        });
+      return;
+    }
 
-    // this.heroesService.updateHero(this.heroForm.value);
+    this.heroesService
+      .addHero(this.currentHero)
+      .subscribe(hero => {
+        // TODO: mostrar snackBar y navegar a /heroes/edit/hero.id
+      });
   }
 }
