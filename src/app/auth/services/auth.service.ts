@@ -23,7 +23,7 @@ export class AuthService {
     return this.http.get<User>(`${this.baseUrl}/users?id=1`)
       .pipe(
         tap(user => this.user = user),
-        tap(user => localStorage.setItem('token', 'ASsds3131sddad23423')),
+        tap(() => localStorage.setItem('token', 'ASsds3131sddad23423')),
       );
   }
 
