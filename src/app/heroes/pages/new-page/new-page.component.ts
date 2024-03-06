@@ -7,7 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { Hero, Publisher } from '../../interfaces/hero.interface';
 import { HeroesService } from '../../services/heroes.service';
-import { switchMap } from 'rxjs';
+import { filter, switchMap, tap } from 'rxjs';
 
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
 
@@ -59,7 +59,6 @@ export class NewPageComponent implements OnInit {
 
   get currentHero(): Hero {
     const hero = this.heroForm.value as Hero;
-    console.log({ hero });
     return hero;
   }
 
@@ -91,12 +90,12 @@ export class NewPageComponent implements OnInit {
 
     dialogRef
       .afterClosed()
-      .subscribe(result => {
-        if (!result) return;
-
-        this.heroesService.deleteHeroById(this.currentHero.id);
-        this.router.navigate(['/heroes']);
-      });
+      .pipe(
+        filter((result: boolean) => result),
+        switchMap(() => this.heroesService.deleteHeroById(this.currentHero.id)),
+        filter((wasDeleted: boolean) => wasDeleted),
+      )
+      .subscribe(() => this.router.navigate(['/heroes']));
   }
 
   showSnackbar(message: string): void {
