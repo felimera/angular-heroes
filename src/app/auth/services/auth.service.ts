@@ -23,7 +23,7 @@ export class AuthService {
     return this.http.get<User>(`${this.baseUrl}/users?id=1`)
       .pipe(
         tap(user => this.user = user),
-        tap(() => localStorage.setItem('token', 'ASsds3131sddad23423')),
+        tap(user => localStorage.setItem('token', 'aASDgjhasda.asdasd.aadsf123k')),
       );
   }
 
@@ -35,7 +35,7 @@ export class AuthService {
       .pipe(
         tap(user => this.user = user),
         map(user => !!user),
-        catchError(() => of(false))
+        catchError(err => of(false))
       );
   }
 
